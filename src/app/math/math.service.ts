@@ -28,14 +28,20 @@ export class MathService {
     integrity: "sha256-CnzfCXjFj1REmPHgWvm/OQv8gFaxwbLKUi41yCU7N2s=",
     id: "MathJaxScript"
   };
+  private mathJaxFallback: MathJaxConfig = {
+    source: "assets/mathjax/mml-chtml.js",
+    integrity: "sha256-CnzfCXjFj1REmPHgWvm/OQv8gFaxwbLKUi41yCU7N2s=",
+    id: "MathJaxBackupScript"
+  };
   
   constructor() {
     this.signal = new ReplaySubject<boolean>();
     void this.registerMathJaxAsync(this.mathJax)
       .then(() => this.signal.next())
       .catch(error => {
-        // TODO: Fallback strategy goes here
-        console.log("Error in loading script from cdn.");
+         void this.registerMathJaxAsync(this.mathJaxFallback)
+          .then(() => this.signal.next())
+          .catch((error) => console.log(error));
       });
   }
 

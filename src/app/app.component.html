@@ -1,0 +1,13 @@
+<h2>MathML parsing demo</h2>
+<br>
+<section class="layout">
+  <section>
+  <textarea [(ngModel)]="mathml" name="mathml" id="mathml" cols="30" rows="20" placeholder="paste your mathml expression here"></textarea>
+  </section>
+  <section>
+    <p *ngIf="mathml;else noExpression" [appMath]="mathml"> </p>
+    <ng-template #noExpression>
+      <div class="no-expression">Expression unavailable</div>
+    </ng-template>
+  </section>
+</section>
